@@ -1,4 +1,5 @@
 import { ImageListType } from './typings';
+import heic2any from 'heic2any';
 
 export const openFileDialog = (inputRef): void => {
   if (inputRef.current) inputRef.current.click();
@@ -12,6 +13,16 @@ export const getAcceptTypeString = (acceptType?: Array<string>) => {
 
 export const getBase64 = (file: File): Promise<string> => {
   const reader = new FileReader();
+  if (file.type === 'image/heic') {
+    return new Promise(async (resolve) => {
+      const jpegBlob = (await heic2any({
+        blob: file,
+        toType: 'image/jpeg',
+      })) as Blob;
+      reader.addEventListener('load', () => resolve(String(reader.result)));
+      reader.readAsArrayBuffer(jpegBlob);
+    });
+  }
   return new Promise((resolve) => {
     reader.addEventListener('load', () => resolve(String(reader.result)));
     reader.readAsDataURL(file);

@@ -48,7 +48,9 @@
     "contributors:generate": "./node_modules/.bin/all-contributors generate",
     "toc": "./node_modules/.bin/doctoc --notitle README.md"
   },
-  "dependencies": {},
+  "dependencies": {
+    "heic2any": "0.0.3"
+  },
   "peerDependencies": {
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
